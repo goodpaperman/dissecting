@@ -1,0 +1,2 @@
+nmake generic.mak
+pause

@@ -1,0 +1,13 @@
+
+#if !defined(AFX_CLASS_H__A58066CD_4C72_4743_BED0_F7EA306170E4__INCLUDED_)
+#define AFX_CLASS_H__A58066CD_4C72_4743_BED0_F7EA306170E4__INCLUDED_
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#include "resource.h"
+void PrintAllClasses(); 
+
+
+#endif // !defined(AFX_CLASS_H__A58066CD_4C72_4743_BED0_F7EA306170E4__INCLUDED_)

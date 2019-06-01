@@ -1,0 +1,42 @@
+========================================================================
+       console application : file
+========================================================================
+
+
+appwizard has created this file application for you.  
+
+this file contains a summary of what you will find in each of the files that
+make up your file application.
+
+file.dsp
+    this file (the project file) contains information at the project level and
+    is used to build a single project or subproject. other users can share the
+    project (.dsp) file, but they should export the makefiles locally.
+
+file.cpp
+    this is the main application source file.
+
+file.rc
+    this is a listing of all of the microsoft windows resources that the
+    program uses.  it includes the icons, bitmaps, and cursors that are stored
+    in the res subdirectory.  this file can be directly edited in microsoft
+    visual c++.
+
+/////////////////////////////////////////////////////////////////////////////
+other standard files:
+
+stdafx.h, stdafx.cpp
+    these files are used to build a precompiled header (pch) file
+    named file.pch and a precompiled types file named stdafx.obj.
+
+resource.h
+    this is the standard header file, which defines new resource ids.
+    microsoft visual c++ reads and updates this file.
+
+/////////////////////////////////////////////////////////////////////////////
+other notes:
+
+appwizard uses "todo:" to indicate parts of the source code you
+should add to or customize.
+
+/////////////////////////////////////////////////////////////////////////////

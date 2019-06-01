@@ -1,0 +1,1223 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+$$IF(TARGET_INTEL || TARGET_MIPS || TARGET_ALPHA)
+$$IF(PROJTYPE_MDI)
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@文件(&F)@@"
+	BEGIN
+$$IF(PROJTYPE_MDI || !NODOCVIEW)
+		MENUITEM "@@新建(&N)\tCtrl+N@@",                ID_FILE_NEW
+$$ENDIF
+$$IF(!NODOCVIEW)
+		MENUITEM "@@打开(&O)...\tCtrl+O@@",            ID_FILE_OPEN
+$$IF(PRINT)
+		MENUITEM SEPARATOR
+		MENUITEM "@@打印设置(&R)...@@",             ID_FILE_PRINT_SETUP
+$$ENDIF //PRINT
+$$IF(HAS_MRU)
+		MENUITEM SEPARATOR
+		MENUITEM "@@最近文件@@",                 ID_FILE_MRU_FILE1,GRAYED
+$$ENDIF //HAS_MRU
+$$ENDIF
+$$IF(PROJTYPE_MDI || !NODOCVIEW)
+		MENUITEM SEPARATOR
+$$ENDIF
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+	END
+$$IF(TOOLBAR || STATUSBAR)
+	POPUP "@@查看(&V)@@"
+	BEGIN
+$$IF(TOOLBAR)
+		MENUITEM "@@工具栏(&T)@@",                    ID_VIEW_TOOLBAR
+$$ENDIF //TOOLBAR
+$$IF(STATUSBAR)
+		MENUITEM "@@状态栏(&S)@@",                 ID_VIEW_STATUS_BAR
+$$ENDIF //STATUSBAR
+$$IF(PROJTYPE_EXPLORER)
+        MENUITEM "@@分隔(&P)@@",                      ID_WINDOW_SPLIT
+$$IF(CListView)
+        MENUITEM SEPARATOR
+        MENUITEM "@@大图标(&G)@@",                ID_VIEW_LARGEICON
+        MENUITEM "@@小图标(&M)@@",                ID_VIEW_SMALLICON
+        MENUITEM "@@列表(&L)@@",                       ID_VIEW_LIST
+        MENUITEM "@@详细资料(&D)@@",                    ID_VIEW_DETAILS
+        MENUITEM SEPARATOR
+        POPUP "@@排列图标 (&I)@@"
+        BEGIN
+            MENUITEM "@@按名称 (&N)@@",                    ID_VIEW_BYNAME
+            MENUITEM SEPARATOR
+            MENUITEM "@@自动排列(&A)@@",               ID_VIEW_AUTOARRANGE
+        END
+        MENUITEM "@@行列对齐(&E)@@",              ID_VIEW_LINEUP
+$$ENDIF
+$$ENDIF
+	END
+$$ENDIF //TOOLBAR || STATUSBAR
+	POPUP "@@帮助(&H)@@"
+	BEGIN
+$$IF(HELP)
+		MENUITEM "@@帮助主题(&H)@@",                ID_HELP_FINDER
+		MENUITEM SEPARATOR
+$$ENDIF //HELP
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+END
+IDR_$$DOC$$TYPE MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@文件(&F)@@"
+	BEGIN
+$$IF(PROJTYPE_MDI || !NODOCVIEW)
+		MENUITEM "@@新建(&N)\tCtrl+N@@",                ID_FILE_NEW
+$$IF(!NODOCVIEW)
+		MENUITEM "@@打开(&O)...\tCtrl+O@@",            ID_FILE_OPEN
+$$ENDIF //NODOCVIEW
+		MENUITEM "@@关闭(&C)@@",                      ID_FILE_CLOSE
+$$IF(!NODOCVIEW)
+		MENUITEM "@@保存(&S)\tCtrl+S@@",               ID_FILE_SAVE
+		MENUITEM "@@另存为(&A)...@@",                 ID_FILE_SAVE_AS
+$$IF(PRINT)
+		MENUITEM SEPARATOR
+		MENUITEM "@@打印(&P)...\tCtrl+P@@",           ID_FILE_PRINT
+$$IF(!CHtmlView)
+		MENUITEM "@@打印预览(&V)@@",              ID_FILE_PRINT_PREVIEW
+$$ENDIF // CHtmlView
+		MENUITEM "@@打印设置(&R)...@@",             ID_FILE_PRINT_SETUP
+$$ENDIF //PRINT
+$$IF(MAPI)
+		MENUITEM SEPARATOR
+		MENUITEM "@@传送(&D)...@@",					ID_FILE_SEND_MAIL
+$$ENDIF //MAPI
+$$IF(HAS_MRU)
+		MENUITEM SEPARATOR
+		MENUITEM "@@最近文件@@",                 ID_FILE_MRU_FILE1,GRAYED
+$$ENDIF //HAS_MRU
+$$ENDIF //NODOCVIEW
+		MENUITEM SEPARATOR
+$$ENDIF //NODOCVIEW
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+	END
+	POPUP "@@编辑(&E)@@"
+	BEGIN
+		MENUITEM "@@撤消(&U)\tCtrl+Z@@",               ID_EDIT_UNDO
+		MENUITEM SEPARATOR
+		MENUITEM "@@剪切(&T)\tCtrl+X@@",                ID_EDIT_CUT
+		MENUITEM "@@复制(&C)\tCtrl+C@@",               ID_EDIT_COPY
+		MENUITEM "@@粘贴(&P)\tCtrl+V@@",              ID_EDIT_PASTE
+$$IF(CONTAINER || CONTAINER_SERVER)
+        MENUITEM "@@选择性粘贴(&S)...@@",           ID_EDIT_PASTE_SPECIAL
+$$IF(CRichEditView)
+        MENUITEM "@@全选(&L)\tCtrl+A@@",         ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "@@查找(&F)...\tCtrl+F@@",            ID_EDIT_FIND
+        MENUITEM "@@查找下一个(&I)\tF3@@",              ID_EDIT_REPEAT
+        MENUITEM "@@替换(&E)\tCtrl+H@@",            ID_EDIT_REPLACE
+$$ENDIF //CRichEditView
+        MENUITEM SEPARATOR
+        MENUITEM "@@插入新对象(&N)...@@",       ID_OLE_INSERT_NEW
+        MENUITEM "@@链接(&K)...@@",                   ID_OLE_EDIT_LINKS
+$$IF(CRichEditView)
+        MENUITEM "@@对象特性(&R)\tAlt+Enter@@", ID_OLE_EDIT_PROPERTIES
+$$ENDIF //CRichEditView
+        MENUITEM "@@<<用 OLE 谓词替换此处>>@@",       ID_OLE_VERB_FIRST
+$$ENDIF //CONTAINER || CONTAINER_SERVER
+	END
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	POPUP "@@记录(&R)@@"
+	BEGIN
+		MENUITEM "@@第一个记录(&F)@@"				ID_RECORD_FIRST
+		MENUITEM "@@前一个记录(&P)@@"				ID_RECORD_PREV
+		MENUITEM "@@下一个记录(&N)@@"					ID_RECORD_NEXT
+		MENUITEM "@@最后一个记录(&L)@@"					ID_RECORD_LAST
+	END
+$$ENDIF //CRecordView || CDaoRecordView || COleDBRecordView
+$$IF(TOOLBAR || STATUSBAR)
+	POPUP "@@查看(&V)@@"
+	BEGIN
+$$IF(TOOLBAR)
+		MENUITEM "@@工具栏(&T)@@",                    ID_VIEW_TOOLBAR
+$$ENDIF //TOOLBAR
+$$IF(STATUSBAR)
+		MENUITEM "@@状态栏(&S)@@",                 ID_VIEW_STATUS_BAR
+$$ENDIF //STATUSBAR
+$$IF(PROJTYPE_EXPLORER)
+        MENUITEM "@@分隔(&P)@@",                      ID_WINDOW_SPLIT
+$$IF(CListView)
+        MENUITEM SEPARATOR
+        MENUITEM "@@大图标(&G)@@",                ID_VIEW_LARGEICON
+        MENUITEM "@@小图标(&M)@@",                ID_VIEW_SMALLICON
+        MENUITEM "@@列表(&L)@@",                       ID_VIEW_LIST
+        MENUITEM "@@详细资料(&D)@@",                    ID_VIEW_DETAILS
+        MENUITEM SEPARATOR
+        POPUP "@@排列图标 (&I)@@"
+        BEGIN
+            MENUITEM "@@按名称 (&N)@@",                    ID_VIEW_BYNAME
+            MENUITEM SEPARATOR
+            MENUITEM "@@自动排列(&A)@@",               ID_VIEW_AUTOARRANGE
+        END
+        MENUITEM "@@行列对齐(&E)@@",              ID_VIEW_LINEUP
+$$ENDIF
+$$ENDIF
+	END
+$$ENDIF //TOOLBAR || STATUSBAR
+	POPUP "@@窗口(&W)@@"
+	BEGIN
+$$IF(!NODOCVIEW)
+		MENUITEM "@@新建窗口(&N)@@",                 ID_WINDOW_NEW
+$$ENDIF //NODOCVIEW
+		MENUITEM "@@层叠(&C)@@",                    ID_WINDOW_CASCADE
+		MENUITEM "@@平铺(&T)@@",                       ID_WINDOW_TILE_HORZ
+		MENUITEM "@@排列图标(&A)@@",              ID_WINDOW_ARRANGE
+$$IF(SPLITTER)
+		MENUITEM "@@分隔(&P)@@",                      ID_WINDOW_SPLIT
+$$ENDIF //SPLITTER
+	END
+	POPUP "@@帮助(&H)@@"
+	BEGIN
+$$IF(HELP)
+		MENUITEM "@@帮助主题(&H)@@",                ID_HELP_FINDER
+		MENUITEM SEPARATOR
+$$ENDIF //HELP
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+END
+
+$$IF(CONTAINER || CONTAINER_SERVER)
+IDR_$$DOC$$TYPE_CNTR_IP MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@文件(&F)@@"
+	BEGIN
+$$IF(PROJTYPE_MDI || !NODOCVIEW)
+		MENUITEM "@@新建(&N)\tCtrl+N@@",                ID_FILE_NEW
+$$IF(!NODOCVIEW)
+		MENUITEM "@@打开(&O)...\tCtrl+O@@",            ID_FILE_OPEN
+		MENUITEM "@@关闭(&C)@@",                      ID_FILE_CLOSE
+		MENUITEM "@@保存(&S)\tCtrl+S@@",               ID_FILE_SAVE
+		MENUITEM "@@另存为(&A)...@@",                 ID_FILE_SAVE_AS
+$$IF(PRINT)
+		MENUITEM SEPARATOR
+		MENUITEM "@@打印(&P)...\tCtrl+P@@",           ID_FILE_PRINT
+$$IF(!CHtmlView)
+		MENUITEM "@@打印预览(&V)@@",              ID_FILE_PRINT_PREVIEW
+$$ENDIF //CHtmlView
+		MENUITEM "@@打印设置(&R)...@@",             ID_FILE_PRINT_SETUP
+$$ENDIF //PRINT
+$$IF(MAPI)
+		MENUITEM SEPARATOR
+		MENUITEM "@@传送(&D)...@@",					ID_FILE_SEND_MAIL
+$$ENDIF //MAPI
+$$IF(HAS_MRU)
+		MENUITEM SEPARATOR
+		MENUITEM "@@最近文件@@",                 ID_FILE_MRU_FILE1,GRAYED
+$$ENDIF //HAS_MRU
+$$ENDIF //NODOCVIEW
+		MENUITEM SEPARATOR
+$$ENDIF //!NODOCVIEW
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+	END
+	MENUITEM SEPARATOR
+	MENUITEM SEPARATOR
+	POPUP "@@窗口(&W)@@"
+	BEGIN
+		MENUITEM "@@新建窗口(&N)@@",                 ID_WINDOW_NEW
+		MENUITEM "@@层叠(&C)@@",                    ID_WINDOW_CASCADE
+		MENUITEM "@@平铺(&T)@@",                       ID_WINDOW_TILE_HORZ
+		MENUITEM "@@排列图标(&A)@@",              ID_WINDOW_ARRANGE
+$$IF(SPLITTER)
+		MENUITEM "@@分隔(&P)@@",                      ID_WINDOW_SPLIT
+$$ENDIF //SPLITTER
+	END
+END
+$$ENDIF//CONTAINER || CONTAINER_SERVER
+
+$$IF(MINI_SERVER || FULL_SERVER || CONTAINER_SERVER)
+IDR_$$DOC$$TYPE_SRVR_EMB MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@文件(&F)@@"
+	BEGIN
+		MENUITEM "@@新建(&N)\tCtrl+N@@",                ID_FILE_NEW
+$$IF(!NODOCVIEW)
+		MENUITEM "@@打开(&O)...\tCtrl+O@@",            ID_FILE_OPEN
+		MENUITEM "@@关闭(&C)@@",                      ID_FILE_CLOSE
+		MENUITEM "@@更新(&U)\tCtrl+S@@",        		ID_FILE_UPDATE
+$$IF(MINI_SERVER)
+$$ELSE		
+		MENUITEM "@@保存复本为(&A)...@@",            ID_FILE_SAVE_COPY_AS
+$$ENDIF		
+$$IF(PRINT)
+		MENUITEM SEPARATOR
+		MENUITEM "@@打印(&P)...\tCtrl+P@@",           ID_FILE_PRINT
+$$IF(!CHtmlView)
+		MENUITEM "@@打印预览(&V)@@",              ID_FILE_PRINT_PREVIEW
+$$ENDIF //CHtmlView
+		MENUITEM "@@打印设置(&R)...@@",             ID_FILE_PRINT_SETUP
+$$ENDIF //PRINT
+$$IF(MAPI)
+		MENUITEM SEPARATOR
+		MENUITEM "@@传送(&D)...@@",					ID_FILE_SEND_MAIL
+$$ENDIF //MAPI
+$$IF(HAS_MRU)
+		MENUITEM SEPARATOR
+		MENUITEM "@@最近文件@@",                 ID_FILE_MRU_FILE1,GRAYED
+$$ENDIF //HAS_MRU
+$$ENDIF // NODOCVIEW
+		MENUITEM SEPARATOR
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+	END
+	POPUP "@@编辑(&E)@@"
+	BEGIN
+		MENUITEM "@@撤消(&U)\tCtrl+Z@@",               ID_EDIT_UNDO
+		MENUITEM SEPARATOR
+		MENUITEM "@@剪切(&T)\tCtrl+X@@",                ID_EDIT_CUT
+		MENUITEM "@@复制(&C)\tCtrl+C@@",               ID_EDIT_COPY
+		MENUITEM "@@粘贴(&P)\tCtrl+V@@",              ID_EDIT_PASTE
+$$IF(CONTAINER || CONTAINER_SERVER)
+        MENUITEM "@@选择性粘贴(&S)...@@",           ID_EDIT_PASTE_SPECIAL
+$$IF(CRichEditView)
+        MENUITEM "@@全选(&L)\tCtrl+A@@",         ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "@@查找(&F)...\tCtrl+F@@",            ID_EDIT_FIND
+        MENUITEM "@@查找下一个(&I)\tF3@@",              ID_EDIT_REPEAT
+        MENUITEM "@@替换(&E)\tCtrl+H@@",            ID_EDIT_REPLACE
+$$ENDIF //CRichEditView
+        MENUITEM SEPARATOR
+        MENUITEM "@@插入新对象(&N)...@@",       ID_OLE_INSERT_NEW
+        MENUITEM "@@链接(&K)...@@",                   ID_OLE_EDIT_LINKS
+$$IF(CRichEditView)
+        MENUITEM "@@对象特性(&R)\tAlt+Enter@@", ID_OLE_EDIT_PROPERTIES
+$$ENDIF //CRichEditView
+        MENUITEM "@@<<用 OLE 谓词替换此处>>@@",       ID_OLE_VERB_FIRST
+$$ENDIF //CONTAINER || CONTAINER_SERVER
+	END
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	POPUP "@@记录(&R)@@"
+	BEGIN
+		MENUITEM "@@第一个记录(&F)@@"				ID_RECORD_FIRST
+		MENUITEM "@@前一个记录(&P)@@"				ID_RECORD_PREV
+		MENUITEM "@@下一个记录(&N)@@"					ID_RECORD_NEXT
+		MENUITEM "@@最后一个记录(&L)@@"					ID_RECORD_LAST
+	END
+$$ENDIF //CRecordView || CDaoRecordView || COleDBRecordView
+$$IF(TOOLBAR || STATUSBAR)
+	POPUP "@@查看(&V)@@"
+	BEGIN
+$$IF(TOOLBAR)
+		MENUITEM "@@工具栏(&T)@@",                    ID_VIEW_TOOLBAR
+$$ENDIF //TOOLBAR
+$$IF(STATUSBAR)
+		MENUITEM "@@状态栏(&S)@@",                 ID_VIEW_STATUS_BAR
+$$ENDIF //STATUSBAR
+	END
+$$ENDIF //TOOLBAR || STATUSBAR
+	POPUP "@@窗口(&W)@@"
+	BEGIN
+		MENUITEM "@@新建窗口(&N)@@",                 ID_WINDOW_NEW
+		MENUITEM "@@层叠(&C)@@",                    ID_WINDOW_CASCADE
+		MENUITEM "@@平铺(&T)@@",                       ID_WINDOW_TILE_HORZ
+		MENUITEM "@@排列图标(&A)@@",              ID_WINDOW_ARRANGE
+$$IF(SPLITTER)
+		MENUITEM "@@分隔(&P)@@",                      ID_WINDOW_SPLIT
+$$ENDIF //SPLITTER
+	END
+	POPUP "@@帮助(&H)@@"
+	BEGIN
+$$IF(HELP)
+		MENUITEM "@@帮助主题(&H)@@",                ID_HELP_FINDER
+		MENUITEM SEPARATOR
+$$ENDIF //HELP
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+END
+IDR_$$DOC$$TYPE_SRVR_IP MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@编辑(&E)@@"
+	BEGIN
+		MENUITEM "@@撤消(&U)\tCtrl+Z@@",               ID_EDIT_UNDO
+		MENUITEM SEPARATOR
+		MENUITEM "@@剪切(&T)\tCtrl+X@@",                ID_EDIT_CUT
+		MENUITEM "@@复制(&C)\tCtrl+C@@",               ID_EDIT_COPY
+		MENUITEM "@@粘贴(&P)\tCtrl+V@@",              ID_EDIT_PASTE
+$$IF(CONTAINER || CONTAINER_SERVER)
+        MENUITEM "@@选择性粘贴(&S)...@@",           ID_EDIT_PASTE_SPECIAL
+$$IF(CRichEditView)
+        MENUITEM "@@全选(&L)\tCtrl+A@@",         ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "@@查找(&F)...\tCtrl+F@@",            ID_EDIT_FIND
+        MENUITEM "@@查找下一个(&I)\tF3@@",              ID_EDIT_REPEAT
+        MENUITEM "@@替换(&E)\tCtrl+H@@",            ID_EDIT_REPLACE
+$$ENDIF //CRichEditView
+        MENUITEM SEPARATOR
+        MENUITEM "@@插入新对象(&N)...@@",       ID_OLE_INSERT_NEW
+        MENUITEM "@@链接(&K)...@@",                   ID_OLE_EDIT_LINKS
+$$IF(CRichEditView)
+        MENUITEM "@@对象特性(&R)\tAlt+Enter@@", ID_OLE_EDIT_PROPERTIES
+$$ENDIF //CRichEditView
+        MENUITEM "@@<<用 OLE 谓词替换此处>>@@",       ID_OLE_VERB_FIRST
+$$ENDIF //CONTAINER || CONTAINER_SERVER
+	END
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	POPUP "@@记录(&R)@@"
+	BEGIN
+		MENUITEM "@@第一个记录(&F)@@"				ID_RECORD_FIRST
+		MENUITEM "@@前一个记录(&P)@@"				ID_RECORD_PREV
+		MENUITEM "@@下一个记录(&N)@@"					ID_RECORD_NEXT
+		MENUITEM "@@最后一个记录(&L)@@"					ID_RECORD_LAST
+	END
+$$ENDIF //CRecordView || CDaoRecordView || COleDBRecordView
+$$IF(TOOLBAR)
+	POPUP "@@查看(&V)@@"
+	BEGIN
+		MENUITEM "@@工具栏(&T)@@",                    ID_VIEW_TOOLBAR
+	END
+$$ENDIF //TOOLBAR
+	MENUITEM SEPARATOR
+	MENUITEM SEPARATOR
+	POPUP "@@帮助(&H)@@"
+	BEGIN
+$$IF(HELP)
+		MENUITEM "@@帮助主题(&H)@@",                ID_HELP_FINDER
+		MENUITEM SEPARATOR
+$$ENDIF //HELP
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+END
+$$ENDIF//MINI_SERVER || FULL_SERVER || CONTAINER_SERVER
+
+$$ELSE // SDI
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+$$IF(MINI_SERVER)
+	POPUP "@@文件(&F)@@"
+	BEGIN
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+		MENUITEM SEPARATOR
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+$$ELSE
+	POPUP "@@文件(&F)@@"
+	BEGIN
+$$IF(!NODOCVIEW)
+$$IF(!DB_NO_FILE)
+		MENUITEM "@@新建(&N)\tCtrl+N@@",                ID_FILE_NEW
+		MENUITEM "@@打开(&O)...\tCtrl+O@@",            ID_FILE_OPEN
+		MENUITEM "@@保存(&S)\tCtrl+S@@",               ID_FILE_SAVE
+		MENUITEM "@@另存为(&A)...@@",                 ID_FILE_SAVE_AS
+$$ENDIF //!DB_NO_FILE
+$$IF(PRINT)
+$$IF(!DB_NO_FILE)
+		MENUITEM SEPARATOR
+$$ENDIF //!DB_NO_FILE
+		MENUITEM "@@打印(&P)...\tCtrl+P@@",           ID_FILE_PRINT
+$$IF(!CHtmlView)
+		MENUITEM "@@打印预览(&V)@@",              ID_FILE_PRINT_PREVIEW
+$$ENDIF //CHtmlView
+		MENUITEM "@@打印设置(&R)...@@",             ID_FILE_PRINT_SETUP
+$$ENDIF //PRINT
+$$IF(DB_NO_FILE)
+$$IF(PRINT)
+		MENUITEM SEPARATOR
+$$ENDIF //PRINT
+$$ELSE  //!DB_NO_FILE
+$$IF(MAPI)
+		MENUITEM SEPARATOR
+		MENUITEM "@@传送(&D)...@@",					ID_FILE_SEND_MAIL
+$$ENDIF //MAPI
+$$IF(HAS_MRU)
+		MENUITEM SEPARATOR
+		MENUITEM "@@最近文件@@",                 ID_FILE_MRU_FILE1,GRAYED
+$$ENDIF //HAS_MRU
+		MENUITEM SEPARATOR
+$$ENDIF //DB_NO_FILE
+$$ENDIF //!NODOCVIEW
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+	END
+	POPUP "@@编辑(&E)@@"
+	BEGIN
+		MENUITEM "@@撤消(&U)\tCtrl+Z@@",               ID_EDIT_UNDO
+		MENUITEM SEPARATOR
+		MENUITEM "@@剪切(&T)\tCtrl+X@@",                ID_EDIT_CUT
+		MENUITEM "@@复制(&C)\tCtrl+C@@",               ID_EDIT_COPY
+		MENUITEM "@@粘贴(&P)\tCtrl+V@@",              ID_EDIT_PASTE
+$$IF(CONTAINER || CONTAINER_SERVER)
+        MENUITEM "@@选择性粘贴(&S)...@@",           ID_EDIT_PASTE_SPECIAL
+$$IF(CRichEditView)
+        MENUITEM "@@全选(&L)\tCtrl+A@@",         ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "@@查找(&F)...\tCtrl+F@@",            ID_EDIT_FIND
+        MENUITEM "@@查找下一个(&I)\tF3@@",              ID_EDIT_REPEAT
+        MENUITEM "@@替换(&E)\tCtrl+H@@",            ID_EDIT_REPLACE
+$$ENDIF //CRichEditView
+        MENUITEM SEPARATOR
+        MENUITEM "@@插入新对象(&N)...@@",       ID_OLE_INSERT_NEW
+        MENUITEM "@@链接(&K)...@@",                   ID_OLE_EDIT_LINKS
+$$IF(CRichEditView)
+        MENUITEM "@@对象特性(&R)\tAlt+Enter@@", ID_OLE_EDIT_PROPERTIES
+$$ENDIF //CRichEditView
+        MENUITEM "@@<<用 OLE 谓词替换此处>>@@",       ID_OLE_VERB_FIRST
+$$ENDIF //CONTAINER || CONTAINER_SERVER
+	END
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	POPUP "@@记录(&R)@@"
+	BEGIN
+		MENUITEM "@@第一个记录(&F)@@"				ID_RECORD_FIRST
+		MENUITEM "@@前一个记录(&P)@@"				ID_RECORD_PREV
+		MENUITEM "@@下一个记录(&N)@@"					ID_RECORD_NEXT
+		MENUITEM "@@最后一个记录(&L)@@"					ID_RECORD_LAST
+	END
+$$ENDIF //CRecordView || CDaoRecordView || COleDBRecordView
+$$IF(TOOLBAR || STATUSBAR || SPLITTER)
+	POPUP "@@查看(&V)@@"
+	BEGIN
+$$IF(TOOLBAR)
+		MENUITEM "@@工具栏(&T)@@",                    ID_VIEW_TOOLBAR
+$$ENDIF //TOOLBAR
+$$IF(STATUSBAR)
+		MENUITEM "@@状态栏(&S)@@",                 ID_VIEW_STATUS_BAR
+$$ENDIF //STATUSBAR
+$$IF(SPLITTER)
+		MENUITEM "@@分隔(&P)@@",                      ID_WINDOW_SPLIT
+$$ENDIF //SPLITTER
+	END
+$$ENDIF //TOOLBAR || STATUSBAR
+	POPUP "@@帮助(&H)@@"
+	BEGIN
+$$IF(HELP)
+		MENUITEM "@@帮助主题(&H)@@",                ID_HELP_FINDER
+		MENUITEM SEPARATOR
+$$ENDIF //HELP
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+$$ENDIF//!MINI_SERVER
+END
+
+$$IF(CONTAINER || CONTAINER_SERVER)
+IDR_CNTR_INPLACE MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@文件(&F)@@"
+	BEGIN
+		MENUITEM "@@新建(&N)\tCtrl+N@@",                ID_FILE_NEW
+		MENUITEM "@@打开(&O)...\tCtrl+O@@",            ID_FILE_OPEN
+		MENUITEM "@@保存(&S)\tCtrl+S@@",               ID_FILE_SAVE
+		MENUITEM "@@另存为(&A)...@@",                 ID_FILE_SAVE_AS
+$$IF(PRINT)
+		MENUITEM SEPARATOR
+		MENUITEM "@@打印(&P)...\tCtrl+P@@",           ID_FILE_PRINT
+$$IF(!CHtmlView)
+		MENUITEM "@@打印预览(&V)@@",              ID_FILE_PRINT_PREVIEW
+$$ENDIF // CHtmlView
+		MENUITEM "@@打印设置(&R)...@@",             ID_FILE_PRINT_SETUP
+$$ENDIF //PRINT
+$$IF(MAPI)
+		MENUITEM SEPARATOR
+		MENUITEM "@@传送(&D)...@@",					ID_FILE_SEND_MAIL
+$$ENDIF //MAPI
+$$IF(HAS_MRU)
+		MENUITEM SEPARATOR
+		MENUITEM "@@最近文件@@",                 ID_FILE_MRU_FILE1,GRAYED
+$$ENDIF //HAS_MRU
+		MENUITEM SEPARATOR
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+	END
+	MENUITEM SEPARATOR
+	MENUITEM SEPARATOR
+END
+$$ENDIF//CONTAINER || CONTAINER_SERVER
+
+$$IF(MINI_SERVER || FULL_SERVER || CONTAINER_SERVER)
+IDR_SRVR_INPLACE MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@编辑(&E)@@"
+	BEGIN
+		MENUITEM "@@撤消(&U)\tCtrl+Z@@",               ID_EDIT_UNDO
+		MENUITEM SEPARATOR
+		MENUITEM "@@剪切(&T)\tCtrl+X@@",                ID_EDIT_CUT
+		MENUITEM "@@复制(&C)\tCtrl+C@@",               ID_EDIT_COPY
+		MENUITEM "@@粘贴(&P)\tCtrl+V@@",              ID_EDIT_PASTE
+$$IF(CONTAINER || CONTAINER_SERVER)
+        MENUITEM "@@选择性粘贴(&S)...@@",           ID_EDIT_PASTE_SPECIAL
+$$IF(CRichEditView)
+        MENUITEM "@@全选(&L)\tCtrl+A@@",         ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "@@查找(&F)...\tCtrl+F@@",            ID_EDIT_FIND
+        MENUITEM "@@查找下一个(&I)\tF3@@",              ID_EDIT_REPEAT
+        MENUITEM "@@替换(&E)\tCtrl+H@@",            ID_EDIT_REPLACE
+$$ENDIF //CRichEditView
+        MENUITEM SEPARATOR
+        MENUITEM "@@插入新对象(&N)...@@",       ID_OLE_INSERT_NEW
+        MENUITEM "@@链接(&K)...@@",                   ID_OLE_EDIT_LINKS
+$$IF(CRichEditView)
+        MENUITEM "@@对象特性(&R)\tAlt+Enter@@", ID_OLE_EDIT_PROPERTIES
+$$ENDIF //CRichEditView
+        MENUITEM "@@<<用 OLE 谓词替换此处>>@@",       ID_OLE_VERB_FIRST
+$$ENDIF //CONTAINER || CONTAINER_SERVER
+	END
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	POPUP "@@记录(&R)@@"
+	BEGIN
+		MENUITEM "@@第一个记录(&F)@@"				ID_RECORD_FIRST
+		MENUITEM "@@前一个记录(&P)@@"				ID_RECORD_PREV
+		MENUITEM "@@下一个记录(&N)@@"					ID_RECORD_NEXT
+		MENUITEM "@@最后一个记录(&L)@@"					ID_RECORD_LAST
+	END
+$$ENDIF //CRecordView || CDaoRecordView ||COleDBRecordView
+$$IF(TOOLBAR)
+	POPUP "@@查看(&V)@@"
+	BEGIN
+		MENUITEM "@@工具栏(&T)@@",                    ID_VIEW_TOOLBAR
+	END
+$$ENDIF //TOOLBAR
+	MENUITEM SEPARATOR
+	MENUITEM SEPARATOR
+	POPUP "@@帮助(&H)@@"
+	BEGIN
+$$IF(HELP)
+		MENUITEM "@@帮助主题(&H)@@",                ID_HELP_FINDER
+		MENUITEM SEPARATOR
+$$ENDIF //HELP
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+END
+IDR_SRVR_EMBEDDED MENU PRELOAD DISCARDABLE 
+BEGIN
+	POPUP "@@文件(&F)@@"
+	BEGIN
+		MENUITEM "@@更新(&U)\tCtrl+S@@",        		ID_FILE_UPDATE
+$$IF(!MINI_SERVER)
+		MENUITEM "@@保存复本为(&A)...@@",            ID_FILE_SAVE_COPY_AS
+$$ENDIF		
+$$IF(PRINT)
+		MENUITEM SEPARATOR
+		MENUITEM "@@打印(&P)...\tCtrl+P@@",           ID_FILE_PRINT
+$$IF(!CHtmlView)
+		MENUITEM "@@打印预览(&V)@@",              ID_FILE_PRINT_PREVIEW
+$$ENDIF //CHtmlView
+		MENUITEM "@@打印设置(&R)...@@",             ID_FILE_PRINT_SETUP
+$$ENDIF //PRINT
+$$IF(MAPI)
+		MENUITEM SEPARATOR
+		MENUITEM "@@传送(&D)...@@",					ID_FILE_SEND_MAIL
+$$ENDIF //MAPI
+		MENUITEM SEPARATOR
+		MENUITEM "@@退出(&X)@@",                       ID_APP_EXIT
+	END
+	POPUP "@@编辑(&E)@@"
+	BEGIN
+		MENUITEM "@@撤消(&U)\tCtrl+Z@@",               ID_EDIT_UNDO
+		MENUITEM SEPARATOR
+		MENUITEM "@@剪切(&T)\tCtrl+X@@",                ID_EDIT_CUT
+		MENUITEM "@@复制(&C)\tCtrl+C@@",               ID_EDIT_COPY
+		MENUITEM "@@粘贴(&P)\tCtrl+V@@",              ID_EDIT_PASTE
+$$IF(CONTAINER || CONTAINER_SERVER)
+        MENUITEM "@@选择性粘贴(&S)...@@",           ID_EDIT_PASTE_SPECIAL
+$$IF(CRichEditView)
+        MENUITEM "@@全选(&L)\tCtrl+A@@",         ID_EDIT_SELECT_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "@@查找(&F)...\tCtrl+F@@",            ID_EDIT_FIND
+        MENUITEM "@@查找下一个(&I)\tF3@@",              ID_EDIT_REPEAT
+        MENUITEM "@@替换(&E)\tCtrl+H@@",            ID_EDIT_REPLACE
+$$ENDIF //CRichEditView
+        MENUITEM SEPARATOR
+        MENUITEM "@@插入新对象(&N)...@@",       ID_OLE_INSERT_NEW
+        MENUITEM "@@链接(&K)...@@",                   ID_OLE_EDIT_LINKS
+$$IF(CRichEditView)
+        MENUITEM "@@对象特性(&R)\tAlt+Enter@@", ID_OLE_EDIT_PROPERTIES
+$$ENDIF //CRichEditView
+        MENUITEM "@@<<用 OLE 谓词替换此处>>@@",       ID_OLE_VERB_FIRST
+$$ENDIF //CONTAINER || CONTAINER_SERVER
+	END
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	POPUP "@@记录(&R)@@"
+	BEGIN
+		MENUITEM "@@第一个记录(&F)@@"				ID_RECORD_FIRST
+		MENUITEM "@@前一个记录(&P)@@"				ID_RECORD_PREV
+		MENUITEM "@@下一个记录(&N)@@"					ID_RECORD_NEXT
+		MENUITEM "@@最后一个记录(&L)@@"					ID_RECORD_LAST
+	END
+$$ENDIF //CRecordView || CDaoRecordView ||COleDBRecordView
+$$IF(TOOLBAR || STATUSBAR || SPLITTER)
+	POPUP "@@查看(&V)@@"
+	BEGIN
+$$IF(TOOLBAR)
+		MENUITEM "@@工具栏(&T)@@",                    ID_VIEW_TOOLBAR
+$$ENDIF //TOOLBAR
+$$IF(STATUSBAR)
+		MENUITEM "@@状态栏(&S)@@",                 ID_VIEW_STATUS_BAR
+$$ENDIF //STATUSBAR
+$$IF(SPLITTER)
+		MENUITEM "@@分隔(&P)@@",                      ID_WINDOW_SPLIT
+$$ENDIF //SPLITTER
+	END
+$$ENDIF //TOOLBAR || STATUSBAR
+	POPUP "@@帮助(&H)@@"
+	BEGIN
+$$IF(HELP)
+		MENUITEM "@@帮助主题(&H)@@",                ID_HELP_FINDER
+		MENUITEM SEPARATOR
+$$ENDIF //HELP
+		MENUITEM "@@关于 $$Root$$(&A)...@@",          ID_APP_ABOUT
+	END
+END
+$$ENDIF(MINI_SERVER || FULL_SERVER || CONTAINER_SERVER)
+$$ENDIF //SDI
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+$$IF(NODOCVIEW)
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE
+BEGIN
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL,NOINVERT
+$$IF(PROJTYPE_MDI)
+	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL,NOINVERT
+$$ENDIF // MDI
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL,NOINVERT
+	VK_BACK,        ID_EDIT_UNDO,           VIRTKEY,ALT,NOINVERT
+	VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT,NOINVERT
+	VK_F6,          ID_NEXT_PANE,           VIRTKEY ,NOINVERT
+	VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT,NOINVERT
+	VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL,NOINVERT
+	VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT,NOINVERT
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL,NOINVERT
+	"Z",            ID_EDIT_UNDO,           VIRTKEY,CONTROL,NOINVERT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT,NOINVERT
+	VK_F1,          ID_HELP,                VIRTKEY,NOINVERT
+$$ENDIF //HELP
+END
+$$ELSE
+$$IF(!MINI_SERVER)
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE
+BEGIN
+$$IF(!DB_NO_FILE)
+	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL
+	"O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
+	"S",            ID_FILE_SAVE,           VIRTKEY,CONTROL
+$$ENDIF //!DB_NO_FILE
+$$IF(PRINT)
+	"P",            ID_FILE_PRINT,          VIRTKEY,CONTROL
+$$ENDIF //PRINT
+	"Z",            ID_EDIT_UNDO,           VIRTKEY,CONTROL
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL
+$$IF(CRichEditView)
+	"A",            ID_EDIT_SELECT_ALL,     VIRTKEY,CONTROL
+	"F",            ID_EDIT_FIND,           VIRTKEY,CONTROL
+	VK_F3,          ID_EDIT_REPEAT,         VIRTKEY
+	"H",            ID_EDIT_REPLACE,        VIRTKEY,CONTROL
+    VK_RETURN,      ID_OLE_EDIT_PROPERTIES, VIRTKEY,ALT,NOINVERT
+$$ENDIF //CRichEditView
+	VK_BACK,        ID_EDIT_UNDO,           VIRTKEY,ALT
+	VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT
+	VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL
+	VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
+	VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+	VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
+	VK_F1,          ID_HELP,                VIRTKEY
+$$ENDIF //HELP
+$$IF(CONTAINER || CONTAINER_SERVER)
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,   	VIRTKEY,NOINVERT
+$$ENDIF
+END
+$$ENDIF
+$$ENDIF // NODOC
+
+$$IF(PROJTYPE_MDI)
+$$IF(CONTAINER || CONTAINER_SERVER)
+IDR_$$DOC$$TYPE_CNTR_IP ACCELERATORS PRELOAD MOVEABLE 
+BEGIN
+	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL
+	"O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
+	"S",            ID_FILE_SAVE,           VIRTKEY,CONTROL
+$$IF(PRINT)
+	"P",            ID_FILE_PRINT,          VIRTKEY,CONTROL
+$$ENDIF //PRINT
+	VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+	VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
+	VK_F1,          ID_HELP,                VIRTKEY
+$$ENDIF //HELP
+$$IF(CONTAINER || CONTAINER_SERVER)
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,   	VIRTKEY,NOINVERT
+$$ENDIF    
+END
+$$ENDIF//CONTAINER || CONTAINER_SERVER
+
+$$IF(MINI_SERVER || FULL_SERVER || CONTAINER_SERVER)
+IDR_$$DOC$$TYPE_SRVR_IP ACCELERATORS PRELOAD MOVEABLE 
+BEGIN
+	"Z",            ID_EDIT_UNDO,           VIRTKEY,CONTROL
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL
+$$IF(CRichEditView)
+	"A",            ID_EDIT_SELECT_ALL,     VIRTKEY,CONTROL
+	"F",            ID_EDIT_FIND,           VIRTKEY,CONTROL
+	VK_F3,          ID_EDIT_REPEAT,         VIRTKEY
+	"H",            ID_EDIT_REPLACE,        VIRTKEY,CONTROL
+    VK_RETURN,      ID_OLE_EDIT_PROPERTIES, VIRTKEY,ALT,NOINVERT
+$$ENDIF //CRichEditView
+	VK_BACK,        ID_EDIT_UNDO,           VIRTKEY,ALT
+	VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT
+	VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL
+	VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
+	VK_F1,          ID_HELP,                VIRTKEY
+$$ENDIF //HELP
+    VK_ESCAPE,      ID_CANCEL_EDIT_SRVR,   	VIRTKEY,NOINVERT
+END
+IDR_$$DOC$$TYPE_SRVR_EMB ACCELERATORS PRELOAD MOVEABLE 
+BEGIN
+	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL
+	"O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
+	"S",            ID_FILE_UPDATE,         VIRTKEY,CONTROL
+$$IF(PRINT)
+	"P",            ID_FILE_PRINT,          VIRTKEY,CONTROL
+$$ENDIF //PRINT
+	"Z",            ID_EDIT_UNDO,           VIRTKEY,CONTROL
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL
+$$IF(CRichEditView)
+	"A",            ID_EDIT_SELECT_ALL,     VIRTKEY,CONTROL
+	"F",            ID_EDIT_FIND,           VIRTKEY,CONTROL
+	VK_F3,          ID_EDIT_REPEAT,         VIRTKEY
+	"H",            ID_EDIT_REPLACE,        VIRTKEY,CONTROL
+    VK_RETURN,      ID_OLE_EDIT_PROPERTIES, VIRTKEY,ALT,NOINVERT
+$$ENDIF //CRichEditView
+	VK_BACK,        ID_EDIT_UNDO,           VIRTKEY,ALT
+	VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT
+	VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL
+	VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
+	VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+	VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
+	VK_F1,          ID_HELP,                VIRTKEY
+$$ENDIF //HELP
+$$IF(CONTAINER_SERVER)
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,   	VIRTKEY,NOINVERT
+$$ENDIF    
+END
+$$ENDIF//MINI_SERVER || FULL_SERVER || CONTAINER_SERVER
+
+$$ELSE
+$$IF(CONTAINER || CONTAINER_SERVER)
+IDR_CNTR_INPLACE ACCELERATORS PRELOAD MOVEABLE 
+BEGIN
+	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL
+	"O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
+	"S",            ID_FILE_SAVE,           VIRTKEY,CONTROL
+$$IF(PRINT)
+	"P",            ID_FILE_PRINT,          VIRTKEY,CONTROL
+$$ENDIF //PRINT
+	VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+	VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
+	VK_F1,          ID_HELP,                VIRTKEY
+$$ENDIF //HELP
+$$IF(CONTAINER || CONTAINER_SERVER)
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,   	VIRTKEY,NOINVERT
+$$ENDIF    
+END
+$$ENDIF//CONTAINER || CONTAINER_SERVER
+
+$$IF(MINI_SERVER || FULL_SERVER || CONTAINER_SERVER)
+IDR_SRVR_INPLACE ACCELERATORS PRELOAD MOVEABLE 
+BEGIN
+	"Z",            ID_EDIT_UNDO,           VIRTKEY,CONTROL
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL
+$$IF(CRichEditView)
+	"A",            ID_EDIT_SELECT_ALL,     VIRTKEY,CONTROL
+	"F",            ID_EDIT_FIND,           VIRTKEY,CONTROL
+	VK_F3,          ID_EDIT_REPEAT,         VIRTKEY
+	"H",            ID_EDIT_REPLACE,        VIRTKEY,CONTROL
+    VK_RETURN,      ID_OLE_EDIT_PROPERTIES, VIRTKEY,ALT,NOINVERT
+$$ENDIF //CRichEditView
+	VK_BACK,        ID_EDIT_UNDO,           VIRTKEY,ALT
+	VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT
+	VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL
+	VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
+	VK_F1,          ID_HELP,                VIRTKEY
+$$ENDIF //HELP
+    VK_ESCAPE,      ID_CANCEL_EDIT_SRVR,   	VIRTKEY,NOINVERT
+END
+IDR_SRVR_EMBEDDED ACCELERATORS PRELOAD MOVEABLE 
+BEGIN
+	"S",            ID_FILE_UPDATE,         VIRTKEY,CONTROL
+$$IF(PRINT)
+	"P",            ID_FILE_PRINT,          VIRTKEY,CONTROL
+$$ENDIF //PRINT
+	"Z",            ID_EDIT_UNDO,           VIRTKEY,CONTROL
+	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
+	"C",            ID_EDIT_COPY,           VIRTKEY,CONTROL
+	"V",            ID_EDIT_PASTE,          VIRTKEY,CONTROL
+$$IF(CRichEditView)
+	"A",            ID_EDIT_SELECT_ALL,     VIRTKEY,CONTROL
+	"F",            ID_EDIT_FIND,           VIRTKEY,CONTROL
+	VK_F3,          ID_EDIT_REPEAT,         VIRTKEY
+	"H",            ID_EDIT_REPLACE,        VIRTKEY,CONTROL
+    VK_RETURN,      ID_OLE_EDIT_PROPERTIES, VIRTKEY,ALT,NOINVERT
+$$ENDIF //CRichEditView
+	VK_BACK,        ID_EDIT_UNDO,           VIRTKEY,ALT
+	VK_DELETE,      ID_EDIT_CUT,            VIRTKEY,SHIFT
+	VK_INSERT,      ID_EDIT_COPY,           VIRTKEY,CONTROL
+	VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
+	VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+	VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT
+$$IF(HELP)
+	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
+	VK_F1,          ID_HELP,                VIRTKEY
+$$ENDIF //HELP
+$$IF(CONTAINER_SERVER)
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,   	VIRTKEY,NOINVERT
+$$ENDIF    
+END
+$$ENDIF//MINI_SERVER || FULL_SERVER || CONTAINER_SERVER
+
+$$ENDIF
+$$ENDIF //TARGET_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+CAPTION "@@关于 $$Root$$@@"
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT @@9@@, "@@宋体@@"
+BEGIN
+	ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+	LTEXT           "@@$$Root$$ 1.0 版@@",IDC_STATIC,40,10,119,8,
+                    SS_NOPREFIX
+	LTEXT           "@@版权所有 (C) $$YEAR$$@@",IDC_STATIC,40,25,119,8
+	DEFPUSHBUTTON   "@@确定@@",IDOK,178,7,50,14,WS_GROUP
+END
+
+$$IF(CFormView || CRecordView || CDaoRecordView || COleDBRecordView)
+IDD_$$SAFE_ROOT$$_FORM	DIALOG DISCARDABLE 0, 0, 320, 200
+STYLE WS_CHILD
+FONT @@9@@, "@@宋体@@"
+BEGIN
+	LTEXT	"@@TODO: 在这个对话框里设置表格控制。@@",IDC_STATIC,24,42,
+		280,8
+END
+$$ENDIF //CFormView || CRecordView || CDaoRecordView || COleDBRecordView
+
+$$IF(REBAR)
+IDR_MAINFRAME	DIALOG DISCARDABLE 0, 0, 330, 16
+STYLE WS_CHILD
+FONT @@9@@, "@@宋体@@"
+BEGIN
+	LTEXT	"@@TODO: 对话栏布局@@",IDC_STATIC,12,4,
+		300,8
+END
+
+$$IF(MINI_SERVER || FULL_SERVER || CONTAINER_SERVER)
+IDR_$$DOC$$TYPE_SRVR_IP DIALOG DISCARDABLE 0, 0, 330, 16
+STYLE WS_CHILD
+FONT @@9@@, "@@宋体@@"
+BEGIN
+	LTEXT	"@@TODO: 内置对话栏布局@@",IDC_STATIC,12,4,
+		300,8
+END
+$$ENDIF // ANY SERVER
+$$ENDIF // REBAR
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO     VERSIONINFO
+  FILEVERSION       1,0,0,1
+  PRODUCTVERSION    1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+        BLOCK "@@080404B0@@"
+		BEGIN 
+			VALUE "CompanyName",     "\0"
+			VALUE "FileDescription", "@@$$MIXED_CASE_ROOT$$ Microsoft 基础类应用程序\0@@"
+			VALUE "FileVersion",     "1, 0, 0, 1\0"
+			VALUE "InternalName",    "$$MIXED_CASE_ROOT$$\0"
+			VALUE "LegalCopyright",  "@@版权所有 (C) $$YEAR$$\0@@"
+			VALUE "LegalTrademarks", "\0"
+			VALUE "OriginalFilename","$$MIXED_CASE_ROOT$$.EXE\0"
+			VALUE "ProductName",     "@@$$MIXED_CASE_ROOT$$ 应用程序\0@@"
+			VALUE "ProductVersion",  "1, 0, 0, 1\0"
+		END
+	END
+	BLOCK "VarFileInfo" 
+	BEGIN 
+		VALUE "Translation", @@0x0804@@, @@1200@@
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+$$IF(CFormView || CRecordView || CDaoRecordView || COleDBRecordView )
+    IDD_$$SAFE_ROOT$$_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 193
+    END
+$$ENDIF //CFormView || CRecordView || CDaoRecordView || COleDBRecordView
+END
+#endif    // APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+$$IF(CONTAINER || MINI_SERVER || FULL_SERVER || CONTAINER_SERVER || AUTOMATION || CRecordView || CDaoRecordView || COleDBRecordView || SOCKETS)
+STRINGTABLE DISCARDABLE 
+BEGIN
+$$IF(CONTAINER || MINI_SERVER || FULL_SERVER || CONTAINER_SERVER || AUTOMATION)
+	IDP_OLE_INIT_FAILED   	"@@OLE 程序初始化失败。请确认 OLE 库程序是正确的版本。@@"
+$$ENDIF //CONTAINER || MINI_SERVER || FULL_SERVER || CONTAINER_SERVER || AUTOMATION
+$$IF(MINI_SERVER)
+	IDP_USE_INSERT_OBJECT	"@@这一服务器程序只能从一个集装应用程序(container application)中开始运行。@@"
+$$ENDIF
+$$IF(CONTAINER || CONTAINER_SERVER)
+	IDP_FAILED_TO_CREATE	"@@建立对象失败。请确认该对象已被注册入系统。@@"
+$$ENDIF
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	IDP_FAILED_OPEN_DATABASE	"@@无法打开数据库。@@"
+$$ENDIF
+$$IF(SOCKETS)
+	IDP_SOCKETS_INIT_FAILED	"@@Windows 通信端口初始化失败。@@"
+$$ENDIF //SOCKETS
+END
+$$ENDIF//CONTAINER || MINI_SERVER || FULL_SERVER || CONTAINER_SERVER || CRecordView || CDaoRecordView || COleDBRecordView || SOCKETS
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+$$// Non-mac-targeting apps remove the two extra substrings
+$$IF(PROJTYPE_MDI)
+	IDR_MAINFRAME           "$$TITLE$$"
+$$IF(HAS_SUFFIX)  // has a file suffix - shell file type too
+	IDR_$$DOC$$TYPE         "\n$$Doc$$\n$$DOC_FILENEW$$\n$$DOC_FILTER$$\n$$SUFFIX$$\n$$DOC_REGID$$\n$$DOC_REGNAME$$"
+$$ELSE //!HAS_SUFFIX
+$$IF(NODOCVIEW)
+	IDR_$$DOC$$TYPE         "\n$$Doc$$\n$$DOC_FILENEW$$"
+$$ELSE
+	IDR_$$DOC$$TYPE         "\n$$Doc$$\n$$DOC_FILENEW$$\n\n\n$$DOC_REGID$$\n$$DOC_REGNAME$$"
+$$ENDIF //NODOCVIEW
+$$ENDIF //!SUFFIX
+$$ELSE // SDI
+$$IF(NODOCVIEW)
+	IDR_MAINFRAME           "$$TITLE$$"
+$$ELIF(HAS_SUFFIX)  // has a file suffix
+	IDR_MAINFRAME           "$$TITLE$$\n\n$$DOC_FILENEW$$\n$$DOC_FILTER$$\n$$SUFFIX$$\n$$DOC_REGID$$\n$$DOC_REGNAME$$"
+$$ELSE //!HAS_SUFFIX
+	IDR_MAINFRAME           "$$TITLE$$\n\n$$DOC_FILENEW$$\n\n\n$$DOC_REGID$$\n$$DOC_REGNAME$$"
+$$ENDIF //HAS_SUFFIX
+
+$$ENDIF //SDI
+END
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+	AFX_IDS_APP_TITLE       "$$Root$$"
+$$IF(HELP)
+	AFX_IDS_IDLEMESSAGE     "@@如需帮助，请按F1键@@"
+	AFX_IDS_HELPMODEMESSAGE "@@选定一个要得到帮助的对象@@"
+$$ELSE
+	AFX_IDS_IDLEMESSAGE     "@@就绪@@"
+$$ENDIF //!HELP
+END
+STRINGTABLE DISCARDABLE 
+BEGIN
+	ID_INDICATOR_EXT        "@@扩展名@@"
+	ID_INDICATOR_CAPS       "@@大写@@"
+	ID_INDICATOR_NUM        "@@数字@@"
+	ID_INDICATOR_SCRL       "@@滚动@@"
+	ID_INDICATOR_OVR        "@@改写@@"
+	ID_INDICATOR_REC        "@@记录@@"
+$$IF(DO_KANA)
+	ID_INDICATOR_KANA		"@@KANA@@"
+$$ENDIF	// DO_KANA
+END
+STRINGTABLE DISCARDABLE 
+BEGIN
+$$IF(PROJTYPE_MDI || !NODOCVIEW)
+$$IF(!DB_NO_FILE)
+	ID_FILE_NEW             "@@建立新文档\n新建@@"
+$$IF(!NODOCVIEW)
+	ID_FILE_OPEN            "@@打开一个现有文档\n打开@@"
+$$ENDIF
+	ID_FILE_CLOSE           "@@关闭活动文档\n关闭@@"
+$$ENDIF
+$$IF(!NODOCVIEW)
+	ID_FILE_SAVE            "@@保存活动文档\n保存@@"
+	ID_FILE_SAVE_AS         "@@将活动文档以一个新文件名保存\n另存为@@"
+$$ENDIF
+$$ENDIF //!DB_NO_FILE
+$$IF(MINI_SERVER || FULL_SERVER || CONTAINER_SERVER)
+	ID_FILE_UPDATE			"@@更新集装程序以显示任何改变\n更新@@"
+	ID_FILE_SAVE_COPY_AS	"@@将活动文档的复本以一个新文件名保存\n保存复本@@"
+$$ENDIF //SERVERS
+$$IF(PRINT)
+	ID_FILE_PAGE_SETUP      "@@改变打印选项\n页面设置@@"
+	ID_FILE_PRINT_SETUP     "@@改变打印机及打印选项\n打印设置@@"
+	ID_FILE_PRINT           "@@打印活动文档\n打印@@"
+$$IF(!CHtmlView)
+	ID_FILE_PRINT_PREVIEW   "@@显示整页\n打印预览@@"
+$$ENDIF 
+$$ENDIF //PRINT
+$$IF(MAPI)
+	ID_FILE_SEND_MAIL		"@@通过电子邮件传送活动文档\n传送邮件@@"
+$$ENDIF //MAPI
+	ID_APP_ABOUT            "@@显示程序信息，版本号和版权\n关于@@"
+	ID_APP_EXIT             "@@退出应用程序；提示保存文档\n退出@@"
+$$IF(HELP)
+	ID_CONTEXT_HELP         "@@显示对按钮、菜单和窗口执行单击操作的帮助\n帮助@@"
+	ID_HELP_INDEX           "@@打开帮助\n帮助主题@@"
+	ID_HELP_FINDER			"@@列出帮助主题\n帮助主题@@"
+	ID_HELP_USING           "@@显示关于如何使用帮助的指令\n帮助@@"
+	ID_HELP                 "@@显示对当前任务或命令的帮助\n帮助@@"
+$$ENDIF //HELP
+$$IF(!NODOCVIEW)
+	ID_FILE_MRU_FILE1       "@@打开该文档@@"
+	ID_FILE_MRU_FILE2       "@@打开该文档@@"
+	ID_FILE_MRU_FILE3       "@@打开该文档@@"
+	ID_FILE_MRU_FILE4       "@@打开该文档@@"
+	ID_FILE_MRU_FILE5       "@@打开该文档@@"
+	ID_FILE_MRU_FILE6       "@@打开该文档@@"
+	ID_FILE_MRU_FILE7       "@@打开该文档@@"
+	ID_FILE_MRU_FILE8       "@@打开该文档@@"
+	ID_FILE_MRU_FILE9       "@@打开该文档@@"
+	ID_FILE_MRU_FILE10      "@@打开该文档@@"
+	ID_FILE_MRU_FILE11      "@@打开该文档@@"
+	ID_FILE_MRU_FILE12      "@@打开该文档@@"
+	ID_FILE_MRU_FILE13      "@@打开该文档@@"
+	ID_FILE_MRU_FILE14      "@@打开该文档@@"
+	ID_FILE_MRU_FILE15      "@@打开该文档@@"
+	ID_FILE_MRU_FILE16      "@@打开该文档@@"
+$$ENDIF
+	ID_NEXT_PANE            "@@切换到下一个窗格\n下一窗格@@"
+	ID_PREV_PANE            "@@切换回前一个窗格\n前一窗格@@"
+$$IF(PROJTYPE_MDI)
+$$IF(!NODOCVIEW)
+	ID_WINDOW_NEW           "@@为活动文档打开另一个窗口\n新建窗口@@"
+$$ENDIF
+	ID_WINDOW_ARRANGE       "@@将图标排列在窗口底部\n排列图标@@"
+	ID_WINDOW_CASCADE       "@@排列窗口成相互重叠\n层叠窗口@@"
+	ID_WINDOW_TILE_HORZ     "@@排列窗口成互不重叠\n平铺窗口@@"
+	ID_WINDOW_TILE_VERT     "@@排列窗口成互不重叠\n平铺窗口@@"
+$$ENDIF //MDI
+	ID_WINDOW_SPLIT         "@@将活动的窗口分隔成窗格\n分隔@@"
+	ID_EDIT_CLEAR           "@@删除被选对象\n删除@@"
+	ID_EDIT_CLEAR_ALL       "@@全部删除\n全部删除@@"
+	ID_EDIT_COPY            "@@复制被选对象并将其置于剪贴板上\n复制@@"
+	ID_EDIT_CUT             "@@剪切被选对象并将其置于剪贴板上\n剪切@@"
+	ID_EDIT_FIND            "@@查找指定的正文\n查找@@"
+	ID_EDIT_PASTE           "@@插入剪贴板内容\n粘贴@@"
+	ID_EDIT_REPEAT          "@@重复上一步操作\n重复@@"
+	ID_EDIT_REPLACE         "@@用不同的正文替换指定的正文\n替换@@"
+	ID_EDIT_SELECT_ALL      "@@选择整个文档\n选择全部@@"
+	ID_EDIT_UNDO            "@@撤消最后一步操作\n撤消@@"
+	ID_EDIT_REDO            "@@重新执行先前已撤消的操作\n重新执行@@"
+$$IF(TOOLBAR)
+	ID_VIEW_TOOLBAR         "@@显示或隐藏工具栏\n显隐工具栏@@"
+$$ENDIF //TOOLBAR
+$$IF(STATUSBAR)
+	ID_VIEW_STATUS_BAR      "@@显示或隐藏状态栏\n显隐状态栏@@"
+$$ENDIF //STATUSBAR
+$$IF(CONTAINER || CONTAINER_SERVER)
+	ID_EDIT_PASTE_LINK      "@@插入剪贴板内容和一条通向其来源的链接\n粘贴链接@@"
+	ID_EDIT_PASTE_SPECIAL	"@@用选项插入剪贴板内容\n选择性粘贴@@"
+	ID_OLE_INSERT_NEW       "@@插入新嵌入的对象\n新对象@@"
+	ID_OLE_EDIT_LINKS       "@@编辑链接对象\n编辑链接@@"
+	ID_OLE_VERB_FIRST       "@@激活嵌入或链接的对象@@"
+	57873					"@@激活嵌入或链接的对象@@"
+	57874					"@@激活嵌入或链接的对象@@"
+	57875					"@@激活嵌入或链接的对象@@"
+	ID_OLE_EDIT_CONVERT		"@@将对象转换成不同的类型\n转换对象@@"
+$$ENDIF //CONTAINER || CONTAINER_SERVER
+$$IF(CRecordView || CDaoRecordView || COleDBRecordView)
+	ID_RECORD_NEXT			"@@移到下一个记录\n下一记录@@"
+	ID_RECORD_PREV			"@@移到前一个记录\n前一记录@@"
+	ID_RECORD_LAST			"@@移到最后一个的记录\n最后一个记录@@"
+	ID_RECORD_FIRST			"@@移到第一个记录\n第一个记录@@"
+$$ENDIF
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+	AFX_IDS_SCSIZE          "@@改变窗口大小@@"
+	AFX_IDS_SCMOVE          "@@改变窗口位置@@"
+	AFX_IDS_SCMINIMIZE      "@@将窗口缩小成图标@@"
+	AFX_IDS_SCMAXIMIZE      "@@把窗口放大到最大尺寸@@"
+	AFX_IDS_SCNEXTWINDOW    "@@切换到下一个文档窗口@@"
+	AFX_IDS_SCPREVWINDOW    "@@切换到先前的文档窗口@@"
+	AFX_IDS_SCCLOSE         "@@关闭活动的窗口并提示保存所有文档@@"
+	AFX_IDS_SCRESTORE       "@@把窗口恢复到正常大小@@"
+	AFX_IDS_SCTASKLIST      "@@激活任务表@@"
+$$IF(PROJTYPE_MDI)
+	AFX_IDS_MDICHILD        "@@激活该窗口@@"
+$$ENDIF //MDI
+$$IF(PRINT)
+	AFX_IDS_PREVIEW_CLOSE   "@@关闭打印预览模式\n取消预阅@@"
+$$ENDIF //PRINT
+END
+
+$$IF(PROJTYPE_EXPLORER)
+$$IF(CListView)
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_SMALLICON       "@@通过使用小图标显示项目。\n小图标@@"
+    ID_VIEW_LARGEICON       "@@通过使用大图标显示项目。\n大图标@@"
+    ID_VIEW_LIST            "@@在列表中显示项目。\n列表@@"
+    ID_VIEW_DETAILS         "@@显示在窗口中每个项目的信息。\n详细资料@@"
+    ID_VIEW_LINEUP          "@@在网格中排列图标。@@"
+    ID_VIEW_BYNAME          "@@按字母顺序对图标排序。@@"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_AUTOARRANGE         "@@在网格上排列图标。@@"
+END
+$$ENDIF
+$$ENDIF
+

@@ -1,0 +1,2 @@
+nmake MLTITHRD.MAK
+MLTITHRD
